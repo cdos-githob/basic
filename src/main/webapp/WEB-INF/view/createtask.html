@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>测试</title>
+<!--     <link href="css/default.css" rel="stylesheet" type="text/css" /> -->
+<!--     <link rel="stylesheet" type="text/css" href="js/themes/default/easyui.css" /> -->
+<!--     <link rel="stylesheet" type="text/css" href="js/themes/icon.css" /> -->
+<!--     <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script> -->
+<!--     <script type="text/javascript" src="js/jquery.easyui.min.1.2.2.js"></script> -->
+<!--     <script type="text/javascript" src="js/datagrid-groupview.js"></script> -->
+    
+    <link rel="stylesheet" type="text/css" href="css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="css/icon.css">
+    <link rel="stylesheet" type="text/css" href="css/demo.css">
+    <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/datagrid-groupview.js"></script>
+    
+    <script type="text/javascript" src="js/_createtask.js"></script>
+    <script type="text/javascript">
+		var data = [
+            {"productid":"显示器","check":true,"id":1,"name":"开机DDC识别","casenum":1,"step":"在操作系统的\"开始菜单-系统设置面板-显示\"查看DDC识别是否为产品一致","result":"认别出的与硬件一致","comment":""},
+            {"productid":"显示器","check":true,"id":1,"name":"睡眠/休眠唤醒后DDC识别","casenum":2,"step":"进入s3,s4状态,唤醒计算机.\"开始菜单-系统设置面板-显示\"查看DDC识别是否为产品一致","result":"认别出的与硬件一致","comment":"1. 使用脚本前先修改权限：chmod a+x pm-action_auto_pm-action_auto_s3.sh 使用超级用户权限运行脚本：sudo  ./pm-action_auto_pm-action_auto_s3.sh 输入需要运行的次数， 还需输入密码 唤醒通过键盘或是按电源按钮2. 使用脚本前先修改权限：chmod a+x pm-action_auto_pm-action_auto_s4.sh  使用超级用户权限运行脚本：sudo  ./pm-action_auto_pm-action_auto_s4.sh 输入需要运行的次数   还需输入密码    唤醒通过按电源按钮"},
+            {"productid":"显示器","check":true,"id":1,"name":"背景测试","casenum":1,"step":"进入linux右击鼠标,点击\"更改桌面背景\”  然后再选择其中的图画","result":"可以正常修改桌面背景","comment":""},
+            {"productid":"显示器","check":true,"id":1,"name":"分辨率测试","casenum":2,"step":"在操作系统的\"开始菜单-系统设置面板-显示\"随机选择不同的分辨率与旋转","result":"不会花屏，蓝屏等无其它异常现象 ","comment":""},
+            {"productid":"显卡","check":true,"id":1,"name":"系统休眠 ","casenum":2,"step":"进入s3,s4状态,唤醒计算机.","result":"1.S3/S4正常，无死机、蓝屏现象","comment":""},
+            {"productid":"显卡","check":true,"id":1,"name":"分辨率、旋转测试","casenum":1,"step":"1.去除锁屏设置中所有的对勾，并将电源选项均选择“从不”2.打开终端运行resolution_rotate.sh脚本让屏幕自动旋转测试","result":"无异常显示现象","comment":""}
+        ];
+    </script>
+</head>
+<body class="easyui-layout" style="overflow-y: hidden"  scroll="no">
+<noscript>
+<div style=" position:absolute; z-index:100000; height:2046px;top:0px;left:0px; width:100%; background:white; text-align:center;">
+    <img src="images/noscript.gif" alt='抱歉，请开启脚本支持！' />
+</div></noscript>
+    <div region="north" hide="true" split="true" border="false"> </div>
+    <div region="south" hide="true" split="true" style="height: 30px; background: #D2E0F2; ">
+    </div>
+    <div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
+    <div id="tb" style="padding:2px 5px;">
+    	 <input class="easyui-textbox" id="taskname" label="测试名称:" labelPosition="left" style="width:200px;">
+         <select class="easyui-combobox" id="operator" label="测试人员:" labelPosition="left" style="width:200px;">
+                <option value="2">李测试</option>
+                <option value="3">王测试</option>
+         </select>
+        <input class="easyui-textbox" id="softver" label="软件平台:" labelPosition="left" style="width:200px;">
+        <select class="easyui-combobox" id="hardver" label="硬件平台:" labelPosition="left" style="width:200px;">
+                <option value="AL">平台1</option>
+                <option value="AK">平台2</option>
+                <option value="AZ">平台3</option>
+                <option value="AR">平台4</option>
+         </select>
+        <select class="easyui-combobox" id="pc" label="分配测试机:" labelPosition="left" style="width:200px;">
+                <option value="1">测试机1</option>
+                <option value="2">测试机2</option>
+                <option value="3">测试机3</option>
+                <option value="4">测试机4</option>
+         </select>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="updatetask()">创建提交</a>
+    </div>
+    
+    <table id="dg" class="easyui-datagrid" title="测试项目" style="width:1200px;height:800px"
+            data-options="
+            	toolbar:'#tb',
+                singleSelect:true,
+                collapsible:true,
+                rownumbers:true,
+                fitColumns:false,
+                singleSelect:false,
+<!--                 nowrap:false, -->
+<!--                 data:data, -->
+                url:'/basic/testcase/all',
+                view:groupview,
+                groupField:'item',
+                groupFormatter:function(value,rows){
+                    return value + ' - ' + rows.length + ' 个测试项';
+                }
+            ">
+        <thead>
+            <tr>
+                <th data-options="field:'check',checkbox:true">选择</th>
+<!--                 <th data-options="field:'id',width:80">序号</th> -->
+                <th data-options="field:'name',width:100">功能点</th>
+                <th data-options="field:'casenum',width:80,align:'right'">测试用例数</th>
+                <th data-options="field:'step',width:80,align:'right'">测试方法</th>
+                <th data-options="field:'times',width:80,align:'right'">测试次数</th>
+                <th data-options="field:'result',width:250">预期结果</th>
+                <th data-options="field:'comment',width:60,align:'center'">工具及脚本辅助</th>
+            </tr>
+        </thead>
+    </table>
+    
+    </div>
+    
+    <!--修改密码窗口-->
+
+	<div id="mm" class="easyui-menu" style="width:150px;">
+		<div id="mm-tabupdate">刷新</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabclose">关闭</div>
+		<div id="mm-tabcloseall">全部关闭</div>
+		<div id="mm-tabcloseother">除此之外全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabcloseright">当前页右侧全部关闭</div>
+		<div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-exit">退出</div>
+	</div>
+
+
+</body>
+</html>

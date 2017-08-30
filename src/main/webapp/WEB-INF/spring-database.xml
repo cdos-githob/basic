@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd 
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd 
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/jdbc 
+       http://www.springframework.org/schema/tx/spring-jdbc.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+	<!-- mysql数据源 -->
+    <bean id="dataSource"  class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close"
+		p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://192.168.7.193:3306/basic"
+		p:username="root"
+		p:password="nfs"
+		p:initialSize="20"
+		p:maxActive="30"/>
+    
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan">
+            <list>
+                <!-- 可以加多个包 -->
+                <value>com.basic.entity</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="testcaseService" class="com.basic.service.impl.TestcaseServiceImpl"></bean>
+    
+<!--     <bean id="sessionFactory" -->
+<!--         class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"> -->
+<!--         <property name="dataSource"> -->
+<!--             <ref bean="dataSource" /> -->
+<!--         </property> -->
+<!--         <property name="hibernateProperties"> -->
+<!--             <props> -->
+<!--                 MySQL的方言 -->
+<!--                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop> -->
+<!--                 <prop key="javax.persistence.validation.mode">none</prop> -->
+<!--                 必要时在数据库新建所有表格 -->
+<!--                 <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+<!--                 <prop key="hibernate.show_sql">true</prop> -->
+<!--                 配置current session的上下文环境，方便我们调用sessionFactory获取当前线程统一个session对象 -->
+<!--                 <prop key="current_session_context_class">thread</prop> -->
+<!--                 用更漂亮的格式显示sql语句 -->
+<!--                 <prop key="hibernate.format_sql">true</prop> -->
+<!--             </props> -->
+<!--         </property> -->
+<!--         <property name="packagesToScan" value="com.basic.entity" />配置需要扫描的包路径，在该包下，所有的类注解配置都会被扫描 -->
+<!--     </bean> -->
+	
+	
+</beans>

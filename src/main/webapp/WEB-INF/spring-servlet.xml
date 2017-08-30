@@ -1,0 +1,93 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd 
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd 
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/jdbc 
+       http://www.springframework.org/schema/tx/spring-jdbc.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 配置扫描的包 -->
+	<context:component-scan base-package="com.springdemo.controller" />
+	<context:component-scan base-package="com.basic" />
+
+	<!-- 注册HandlerMapper、HandlerAdapter两个映射类 -->
+	<mvc:annotation-driven />
+
+	<!-- 访问静态资源 -->
+	<mvc:default-servlet-handler />
+	<mvc:resources mapping="/js/**" location="/WEB-INF/view/js/" />
+	<mvc:resources mapping="/images/**" location="/WEB-INF/view/images/" />
+	<mvc:resources mapping="/css/**" location="/WEB-INF/view/css/" />
+	<mvc:resources mapping="/css/icons/**" location="/WEB-INF/view/css/icons/" />
+	<mvc:resources mapping="/css/images/**" location="/WEB-INF/view/css/images/" />
+	<mvc:resources mapping="/download/**" location="/WEB-INF/download/" />
+
+	<!-- 视图解析器 -->
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/"></property>
+		<property name="suffix" value=".html"></property>
+	</bean>
+	<!-- <bean id="htmlViewResolver" -->
+	<!-- class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+	<!-- <property name="prefix" value="/WEB-INF/view/"></property> -->
+	<!-- <property name="suffix" value=".html"></property> -->
+	<!-- <property name="order" value="1" /> -->
+	<!-- </bean> -->
+
+	<!-- mysql数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://192.168.7.193:3306/basic?useUnicode=true&amp;characterEncoding=UTF-8" p:username="root"
+		p:password="nfs" p:initialSize="20" p:maxActive="30" />
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<!-- 可以加多个包 -->
+				<value>com.basic.entity</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+			</props>
+		</property>
+		<!-- <property name="mappingResources"> -->
+		<!-- <list> -->
+		<!-- 可以加多个包 -->
+		<!-- <value>com.basic.entity.Testcase</value> -->
+		<!-- </list> -->
+		<!-- </property> -->
+		<property name="annotatedClasses">
+			<list>
+				<value>com.basic.entity.Testcase</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+<!-- 	<bean id="testcaseService" class="com.basic.service.impl.TestcaseServiceImpl"></bean> -->
+</beans>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>测试</title>
+    <link rel="stylesheet" type="text/css" href="css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="css/icon.css">
+    <link rel="stylesheet" type="text/css" href="css/demo.css">
+    <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/datagrid-groupview.js"></script>
+    <script type="text/javascript" src="js/datagrid-detailview.js"></script>
+    <script type="text/javascript" src="js/_exetask.js"></script>
+</head>
+<body class="easyui-layout" style="overflow-y: hidden"  scroll="no">
+
+<noscript>
+<div style=" position:absolute; z-index:100000; height:2046px;top:0px;left:0px; width:100%; background:white; text-align:center;">
+    <img src="images/noscript.gif" alt='抱歉，请开启脚本支持！' />
+</div></noscript>
+    <div region="north" hide="true" split="true" border="false"> </div>
+    <div region="south" hide="true" split="true" style="height: 30px; background: #D2E0F2; ">
+    </div>
+    <div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
+    <div id="tb" style="padding:2px 5px;">
+        <span>测试执行人员:</span>
+        <span id="operator"></span>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-search">测试日志提交</a>
+    </div>
+    
+    <table id="dg"  title="测试项目" style="width:1000px;height:800px"
+            data-options="
+            	toolbar:'#tb',
+                singleSelect:true,
+                collapsible:true,
+                rownumbers:true,
+                fitColumns:true,
+                singleSelect:false,
+                view:groupview,
+<!--                 nowrap:false, -->
+<!--                 url:'/basic/getexetask', -->
+                groupField:'productid',
+                groupFormatter:function(value,rows){
+                }
+            ">
+        <thead>
+            <tr>
+<!--                 <th data-options="field:'id',width:80">序号</th> -->
+                <th data-options="field:'pname',width:80">测试对象</th>
+                <th data-options="field:'name',width:100">测试项目</th>
+                <th data-options="field:'casenum',width:80,align:'right'">测试用例数</th>
+                <th data-options="field:'step',width:80,align:'right'">测试方法</th>
+                <th data-options="field:'result',width:250">预期结果</th>
+<!--                 <th data-options="field:'comment',width:60,align:'center'">工具及脚本辅助</th> -->
+            </tr>
+        </thead>
+    </table>
+    
+    </div>
+    
+    
+    <!--修改密码窗口-->
+    
+
+	<div id="mm" class="easyui-menu" style="width:150px;">
+		<div id="mm-tabupdate">刷新</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabclose">关闭</div>
+		<div id="mm-tabcloseall">全部关闭</div>
+		<div id="mm-tabcloseother">除此之外全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabcloseright">当前页右侧全部关闭</div>
+		<div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-exit">退出</div>
+	</div>
+
+
+</body>
+</html>
